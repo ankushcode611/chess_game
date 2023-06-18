@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:math';
+
 import 'package:chess_app/components/piece.dart';
 import 'package:chess_app/components/square.dart';
 import 'package:chess_app/values/colors.dart';
@@ -277,7 +279,7 @@ class _GameBoardState extends State<GameBoard> {
           [-1, -1], // up left
           [-1, 1], //up right
           [1, -1], //down left
-          [1, 1], // doen right
+          [1, 1], // down right
         ];
 
         for (var direction in directions) {
@@ -302,6 +304,37 @@ class _GameBoardState extends State<GameBoard> {
         break;
 
       case ChessPieceType.queen:
+        // All eight directions up, down, left, right and all 4 diagonals
+        var directions = [
+          [-1, 0], //up
+          [1, 0], //down
+          [0, -1], //left
+          [-1, 0], //right
+          [-1, -1], // up left
+          [-1, 1], //up right
+          [1, -1], //down left
+          [1, 1], //down right
+        ];
+
+        for (var direction in directions) {
+          var i = 1;
+          while (true) {
+            var newRow = row + i * direction[0];
+            var newCol = col + i * direction[1];
+            if (isInBoard(newRow, newCol)) {
+              break; //valid move
+            }
+            if (board[newRow][newCol] != null) {
+              if (board[newRow][newCol]!.isWhite != piece.isWhite) {
+                candidateMoves.add([newRow, newCol]); //can capture
+              }
+              break; //moves blocked
+            }
+            candidateMoves.add([newRow, newCol]);
+            i++;
+          }
+        }
+
         break;
       case ChessPieceType.king:
         break;
