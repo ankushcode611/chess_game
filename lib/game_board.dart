@@ -53,9 +53,9 @@ class _GameBoardState extends State<GameBoard> {
     //placing a piece in the middle for test
 
     newBoard[3][3] = ChessPiece(
-      type: ChessPieceType.knight,
+      type: ChessPieceType.bishop,
       isWhite: false,
-      imagePath: 'lib/images/knight.png',
+      imagePath: 'lib/images/bishop.png',
     );
 
     //place pawns
@@ -289,7 +289,7 @@ class _GameBoardState extends State<GameBoard> {
         ];
 
         for (var direction in directions) {
-          var i = 0;
+          var i = 1;
           while (true) {
             var newRow = row + i * direction[0];
             var newCol = col + i * direction[1];
