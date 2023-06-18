@@ -270,8 +270,37 @@ class _GameBoardState extends State<GameBoard> {
         }
 
         break;
+
       case ChessPieceType.bishop:
+        //only diagonal directions from current position on borad
+        var directions = [
+          [-1, -1], // up left
+          [-1, 1], //up right
+          [1, -1], //down left
+          [1, 1], // doen right
+        ];
+
+        for (var direction in directions) {
+          var i = 0;
+          while (true) {
+            var newRow = row + i * direction[0];
+            var newCol = col + i * direction[1];
+            if (isInBoard(newRow, newCol)) {
+              break;
+            } // valid move
+            if (board[newRow][newCol] != null) {
+              if (board[newRow][newCol]!.isWhite != piece.isWhite) {
+                candidateMoves.add([newRow, newCol]); //can capture
+              }
+              break; //move blocked
+            }
+            candidateMoves.add([newRow, newCol]);
+            i++;
+          }
+        }
+
         break;
+
       case ChessPieceType.queen:
         break;
       case ChessPieceType.king:
