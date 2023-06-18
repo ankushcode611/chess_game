@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:math';
-
 import 'package:chess_app/components/piece.dart';
 import 'package:chess_app/components/square.dart';
 import 'package:chess_app/values/colors.dart';
@@ -55,9 +53,10 @@ class _GameBoardState extends State<GameBoard> {
     //placing a piece in the middle for test
 
     newBoard[3][3] = ChessPiece(
-        type: ChessPieceType.rook,
-        isWhite: false,
-        imagePath: "lib/images/rook.png");
+      type: ChessPieceType.knight,
+      isWhite: false,
+      imagePath: 'lib/images/knight.png',
+    );
 
     //place pawns
     for (int i = 0; i < 8; i++) {
