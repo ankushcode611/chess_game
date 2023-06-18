@@ -293,14 +293,14 @@ class _GameBoardState extends State<GameBoard> {
           while (true) {
             var newRow = row + i * direction[0];
             var newCol = col + i * direction[1];
-            if (isInBoard(newRow, newCol)) {
-              break;
-            } // valid move
+            if (!isInBoard(newRow, newCol)) {
+              break; // move out of board, break the loop
+            }
             if (board[newRow][newCol] != null) {
               if (board[newRow][newCol]!.isWhite != piece.isWhite) {
-                candidateMoves.add([newRow, newCol]); //can capture
+                candidateMoves.add([newRow, newCol]); // can capture
               }
-              break; //move blocked
+              break; // move blocked, break the loop
             }
             candidateMoves.add([newRow, newCol]);
             i++;
