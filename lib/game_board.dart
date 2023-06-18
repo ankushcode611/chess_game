@@ -53,11 +53,10 @@ class _GameBoardState extends State<GameBoard> {
     //placing a piece in the middle for test
 
     newBoard[3][3] = ChessPiece(
-      type: ChessPieceType.bishop,
+      type: ChessPieceType.queen,
       isWhite: false,
-      imagePath: 'lib/images/bishop.png',
+      imagePath: 'lib/images/queen.png',
     );
-
     //place pawns
     for (int i = 0; i < 8; i++) {
       newBoard[1][i] = ChessPiece(
@@ -310,16 +309,15 @@ class _GameBoardState extends State<GameBoard> {
         break;
 
       case ChessPieceType.queen:
-        // All eight directions up, down, left, right and all 4 diagonals
         var directions = [
-          [-1, 0], //up
-          [1, 0], //down
-          [0, -1], //left
-          [-1, 0], //right
+          [-1, 0], // up
+          [1, 0], // down
+          [0, -1], // left
+          [0, 1], // right
           [-1, -1], // up left
-          [-1, 1], //up right
-          [1, -1], //down left
-          [1, 1], //down right
+          [-1, 1], // up right
+          [1, -1], // down left
+          [1, 1], // down right
         ];
 
         for (var direction in directions) {
@@ -327,14 +325,14 @@ class _GameBoardState extends State<GameBoard> {
           while (true) {
             var newRow = row + i * direction[0];
             var newCol = col + i * direction[1];
-            if (isInBoard(newRow, newCol)) {
-              break; //valid move
+            if (!isInBoard(newRow, newCol)) {
+              break; // move out of board, break the loop
             }
             if (board[newRow][newCol] != null) {
               if (board[newRow][newCol]!.isWhite != piece.isWhite) {
-                candidateMoves.add([newRow, newCol]); //can capture
+                candidateMoves.add([newRow, newCol]); // can capture
               }
-              break; //moves blocked
+              break; // move blocked, break the loop
             }
             candidateMoves.add([newRow, newCol]);
             i++;
