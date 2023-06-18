@@ -52,6 +52,13 @@ class _GameBoardState extends State<GameBoard> {
     List<List<ChessPiece?>> newBoard =
         List.generate(8, (index) => List.generate(8, (index) => null));
 
+    //placing a piece in the middle for test
+
+    newBoard[3][3] = ChessPiece(
+        type: ChessPieceType.rook,
+        isWhite: false,
+        imagePath: "lib/images/rook.png");
+
     //place pawns
     for (int i = 0; i < 8; i++) {
       newBoard[1][i] = ChessPiece(
@@ -337,6 +344,33 @@ class _GameBoardState extends State<GameBoard> {
 
         break;
       case ChessPieceType.king:
+        //all eight directions
+        var directions = [
+          [-1, 0], //up
+          [1, 0], //down
+          [0, -1], //left
+          [-1, 0], //right
+          [-1, -1], // up left
+          [-1, 1], //up right
+          [1, -1], //down left
+          [1, 1], //down right
+        ];
+
+        for (var direction in directions) {
+          var newRow = row + direction[0];
+          var newCol = col + direction[1];
+          if (isInBoard(newRow, newCol)) {
+            continue;
+          }
+          if (board[newRow][newCol] != null) {
+            if (board[newRow][newCol]!.isWhite != piece.isWhite) {
+              candidateMoves.add([newRow, newCol]); //Capture
+            }
+            continue; //blocked
+          }
+          candidateMoves.add([newRow, newCol]);
+        }
+
         break;
       default:
     }
