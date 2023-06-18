@@ -213,15 +213,62 @@ class _GameBoardState extends State<GameBoard> {
         break;
       case ChessPieceType.rook:
         // horizontal and vertical directions
-        var direction = [
+        var directions = [
           [-1, 0], //up
           [1, 0], //down
           [0, -1], //left
           [0, 1], //right
         ];
 
+        for (var direction in directions) {
+          var i = 1;
+          while (true) {
+            var newRow = row + i * direction[0];
+            var newCol = col + i * direction[1];
+            if (!isInBoard(newRow, newCol)) {
+              break;
+            }
+            if (board[newRow][newCol] != null) {
+              if (board[newRow][newCol]!.isWhite != piece.isWhite) {
+                candidateMoves.add(
+                    [newRow, newCol]); //that means a valid move and can kill
+              }
+              break; //blocked moves
+            }
+            candidateMoves.add([newRow, newCol]);
+            i++;
+          }
+        }
         break;
+
       case ChessPieceType.knight:
+        // mentioning all possible L shaped moves that the knight can move
+        var knightMoves = [
+          [-2, -1], //up 2 left 1
+          [-2, 1], //up 2 right 1
+          [-1, -2], //up1 left 2
+          [-1, 2], //up 1 right 2
+          [1, -2], //down 1 left 2
+          [1, 2], //down 1 right 2
+          [2, -1], //down 2 left 1
+          [2, 1], //down 2 right 1
+        ];
+
+        for (var move in knightMoves) {
+          var newRow = row + move[0];
+          var newCol = col + move[1];
+          if (!isInBoard(newRow, newCol)) {
+            continue; // valid move
+          }
+          if (board[newRow][newCol] != null) {
+            if (board[newRow][newCol]!.isWhite != piece.isWhite) {
+              candidateMoves.add([newRow, newCol]); //can capture
+            }
+            continue; //move blocked
+          }
+          candidateMoves.add([newRow, newCol]);
+        }
+
         break;
       case ChessPieceType.bishop:
         break;
