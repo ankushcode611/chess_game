@@ -102,6 +102,7 @@ class _GameBoardState extends State<GameBoard> {
       isWhite: true,
       imagePath: 'lib/images/rook.png',
     );
+
     //place knight
     newBoard[0][1] = ChessPiece(
       type: ChessPieceType.knight,
